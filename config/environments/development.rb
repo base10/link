@@ -78,4 +78,6 @@ Rails.application.configure do
     host: 'localhost',
     port: ENV.fetch("PORT")
   }
+
+  config.hosts << "arsnocturnus.local"
 end
