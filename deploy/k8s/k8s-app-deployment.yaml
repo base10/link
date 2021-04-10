@@ -1,0 +1,33 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "link-app"
+  labels:
+    app: "link-app"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "link-app"
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: "link-app"
+    spec:
+      containers:
+      - name: "link-app"
+        image: link-container
+        imagePullPolicy: Never
+        resources:
+          requests:
+            memory: "200M"
+            cpu: "100m"
+          limits:
+            memory: "2G"
+            cpu: "1"
+        env:
+        - name: "DATABASE_URL"
+          value: "postgresql://postgres@172.16.100.20:5432/link"
+        - name: "REDIS_URL"
+          value: "redis://172.16.100.20:6379/15"
