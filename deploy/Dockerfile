@@ -1,10 +1,8 @@
-# FROM ubuntu:20.04
 FROM ruby:2.7.2
 
 ENV PORT 3000
 ENV RAILS_ROOT /var/www/app/
 
-# RUN apt-get remove --purge nodejs npm
 RUN apt-get clean
 RUN apt-get autoclean
 RUN apt-get install -f
