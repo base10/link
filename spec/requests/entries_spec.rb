@@ -13,43 +13,73 @@
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/entries", type: :request do
+  include Devise::Test::IntegrationHelpers
+
+  let(:user) {
+    User.create!(
+      email: 'example_user@example.com',
+      name: 'Sample',
+      password: 'A Sample Password'
+    )
+  }
+
   # Entry. As you add validations to Entry, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      title: "Sample Title",
+      url: "https://www.example.com/",
+      notes: "",
+      private: false
+    }
+  }
+
+  let(:valid_attributes_with_user) {
+    valid_attributes.merge(user: user)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { invalid_attribute: "I am invalid!" }
   }
 
   describe "GET /index" do
     it "renders a successful response" do
-      Entry.create! valid_attributes
+      Entry.create! valid_attributes_with_user
+
       get entries_url
+
       expect(response).to be_successful
     end
   end
 
   describe "GET /show" do
     it "renders a successful response" do
-      entry = Entry.create! valid_attributes
+      entry = Entry.create! valid_attributes_with_user
+
+      sign_in(user)
       get entry_url(entry)
+
       expect(response).to be_successful
     end
   end
 
   describe "GET /new" do
     it "renders a successful response" do
+      sign_in(user)
+
       get new_entry_url
+
       expect(response).to be_successful
     end
   end
 
   describe "GET /edit" do
     it "render a successful response" do
-      entry = Entry.create! valid_attributes
+      entry = Entry.create! valid_attributes_with_user
+      sign_in(user)
+
       get edit_entry_url(entry)
+
       expect(response).to be_successful
     end
   end
@@ -57,12 +87,16 @@ RSpec.describe "/entries", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Entry" do
+        sign_in(user)
+
         expect {
           post entries_url, params: { entry: valid_attributes }
         }.to change(Entry, :count).by(1)
       end
 
       it "redirects to the created entry" do
+        sign_in(user)
+
         post entries_url, params: { entry: valid_attributes }
         expect(response).to redirect_to(entry_url(Entry.last))
       end
@@ -70,14 +104,24 @@ RSpec.describe "/entries", type: :request do
 
     context "with invalid parameters" do
       it "does not create a new Entry" do
+        sign_in(user)
+
+        skip("FIXME: Need to reject bad data")
         expect {
-          post entries_url, params: { entry: invalid_attributes }
+          post entries_url, params: {
+            entry: valid_attributes.merge(invalid_attributes)
+          }
         }.to change(Entry, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        post entries_url, params: { entry: invalid_attributes }
-        expect(response).to be_successful
+        sign_in(user)
+
+        post entries_url, params: {
+          entry: valid_attributes.merge(invalid_attributes)
+        }
+
+        expect(response).to be_redirect
       end
     end
   end
@@ -85,44 +129,61 @@ RSpec.describe "/entries", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { notes: "Updated notes" }
       }
 
       it "updates the requested entry" do
-        entry = Entry.create! valid_attributes
+        entry = Entry.create! valid_attributes_with_user
+
+        sign_in(user)
         patch entry_url(entry), params: { entry: new_attributes }
         entry.reload
+
         skip("Add assertions for updated state")
       end
 
       it "redirects to the entry" do
-        entry = Entry.create! valid_attributes
+        entry = Entry.create! valid_attributes_with_user
+
+        sign_in(user)
         patch entry_url(entry), params: { entry: new_attributes }
         entry.reload
+
         expect(response).to redirect_to(entry_url(entry))
       end
     end
 
     context "with invalid parameters" do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        entry = Entry.create! valid_attributes
-        patch entry_url(entry), params: { entry: invalid_attributes }
-        expect(response).to be_successful
+      it "redirects to the 'edit' template)" do
+        entry = Entry.create! valid_attributes_with_user
+
+        sign_in(user)
+        patch entry_url(entry), params: {
+          entry: valid_attributes.merge(invalid_attributes)
+        }
+
+        expect(response).to be_redirect
       end
     end
   end
 
   describe "DELETE /destroy" do
     it "destroys the requested entry" do
-      entry = Entry.create! valid_attributes
+      entry = Entry.create! valid_attributes_with_user
+
+      sign_in(user)
+
       expect {
         delete entry_url(entry)
       }.to change(Entry, :count).by(-1)
     end
 
     it "redirects to the entries list" do
-      entry = Entry.create! valid_attributes
+      entry = Entry.create! valid_attributes_with_user
+
+      sign_in(user)
       delete entry_url(entry)
+
       expect(response).to redirect_to(entries_url)
     end
   end

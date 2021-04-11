@@ -2,12 +2,18 @@ require 'rails_helper'
 
 RSpec.describe "entries/edit", type: :view do
   before(:each) do
+    @user = assign(:user, User.create!(
+      email: 'example_user@example.com',
+      name: 'Sample',
+      password: 'A Sample Password'
+    ))
+
     @entry = assign(:entry, Entry.create!(
       title: "MyString",
       url: "MyText",
       notes: "MyText",
       private: false,
-      belongs_to: ""
+      user: @user
     ))
   end
 
@@ -23,8 +29,6 @@ RSpec.describe "entries/edit", type: :view do
       assert_select "textarea[name=?]", "entry[notes]"
 
       assert_select "input[name=?]", "entry[private]"
-
-      assert_select "input[name=?]", "entry[belongs_to]"
     end
   end
 end

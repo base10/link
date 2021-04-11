@@ -2,12 +2,18 @@ require 'rails_helper'
 
 RSpec.describe "entries/show", type: :view do
   before(:each) do
+    @user = assign(:user, User.create!(
+      email: 'example_user@example.com',
+      name: 'Sample',
+      password: 'A Sample Password'
+    ))
+
     @entry = assign(:entry, Entry.create!(
       title: "Title",
       url: "MyText",
       notes: "MyText",
       private: false,
-      belongs_to: ""
+      user: @user
     ))
   end
 
@@ -17,6 +23,5 @@ RSpec.describe "entries/show", type: :view do
     expect(rendered).to match(/MyText/)
     expect(rendered).to match(/MyText/)
     expect(rendered).to match(/false/)
-    expect(rendered).to match(//)
   end
 end

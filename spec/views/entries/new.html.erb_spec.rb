@@ -7,7 +7,6 @@ RSpec.describe "entries/new", type: :view do
       url: "MyText",
       notes: "MyText",
       private: false,
-      belongs_to: ""
     ))
   end
 
@@ -23,8 +22,6 @@ RSpec.describe "entries/new", type: :view do
       assert_select "textarea[name=?]", "entry[notes]"
 
       assert_select "input[name=?]", "entry[private]"
-
-      assert_select "input[name=?]", "entry[belongs_to]"
     end
   end
 end
