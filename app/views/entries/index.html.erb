@@ -1,0 +1,23 @@
+<h1>Entries</h1>
+
+<% if @entries.present? %>
+  <% @entries.each do |entry| %>
+    <%= render entry, locals: { entry: entry } %>
+  <% end %>
+<% else %>
+  <h2>Sorry!</h2>
+
+  <p>No available entries to see yet.</p>
+
+  <% if user_signed_in? %>
+    <p>Create your first entry!<p>
+  <% else %>
+    <p>Create an account and create your first entry.</p>
+  <% end %>
+<% end %>
+
+<br>
+
+<% if user_signed_in? %>
+  <%= link_to 'New Entry', new_entry_path %>
+<% end %>

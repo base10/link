@@ -1,0 +1,22 @@
+<p>
+  <strong>Title:</strong>
+  <%= @entry.title %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @entry.url %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @entry.notes %>
+</p>
+
+<p>
+  <strong>Private:</strong>
+  <%= @entry.private %>
+</p>
+
+<%= link_to 'Edit', edit_entry_path(@entry) %> |
+<%= link_to 'Back', entries_path %>

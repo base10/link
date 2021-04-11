@@ -1,0 +1,41 @@
+<article class="entry">
+  <h2><a href="<%= entry.url %>"><%= entry.title %></a></h2>
+
+  <section class="url">
+    URL: <a href="<%= entry.url %>"><%= entry.url %></a>
+  </section>
+
+<% if user_signed_in? %>
+  <section class="privacy">
+    <% if entry.private %>
+      Private
+    <% else %>
+      Shared
+    <% end %>
+  </section>
+<% end %>
+
+  <section class="notes">
+    <%= entry.notes %>
+  </section>
+
+<% if user_signed_in? %>
+  <section class="actions">
+    <h3>Actions</h3>
+
+    <ul>
+      <li><%= link_to 'Edit', edit_entry_path(entry) %></li>
+      <li>
+        <%=
+          link_to(
+            'Destroy',
+            entry,
+            method: :delete,
+            data: { confirm: 'Are you sure?' }
+          )
+        %>
+      </li>
+    </ul>
+  </section>
+<% end %>
+</article>
