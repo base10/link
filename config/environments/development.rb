@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require Rails.root.join("lib", "health_check")
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -78,4 +79,8 @@ Rails.application.configure do
     host: 'localhost',
     port: ENV.fetch("PORT")
   }
+
+  # Provide a health check for Kubernetes
+  config.ssl_options = { redirect: { exclude: -> request { request.path =~ /health_check/ } } }
+  config.middleware.use HealthCheck
 end
