@@ -1,6 +1,13 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  namespace :admin do
+      resources :entries
+      resources :users
+
+      root to: "users#index"
+  end
+
   resources :entries
   mount Sidekiq::Web => '/sidekiq'
   devise_for :users

@@ -7,6 +7,7 @@ ruby "2.7.2"
 gem "rails", "~> 6.1.3"
 
 gem "action_policy"
+gem "administrate"
 gem "bcrypt", "~> 3.1.7"
 gem "devise"
 gem "jbuilder", "~> 2.7"
