@@ -48,7 +48,7 @@ Link uses [Redis](https://redis.io) to run Sidekiq. The app is not doing much wi
 - Create the databases and migrate them
 - Fill-in seed data
 - Start the app with Foreman
-    `(bundle exec) foreman start`
+- Open the app
 
 ### Stepwise
 
@@ -65,27 +65,30 @@ Link uses [Redis](https://redis.io) to run Sidekiq. The app is not doing much wi
     - Empty DB: `rails db:create`
         - `RAILS_ENV=test rails db:create`
     - Migrate: `rails db:migrate`
-- Seed:
+- Fill-in seed data
+    - `rails db:seed`
+- Handle _all_ of the database tasks in one go
+    - `rails db:setup`
+- Start the app with Foreman
+    - `(bundle exec) foreman start`
+- Open the app in your browser at the port you specified
+    - `http://localhost:3000/`
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Getting started with the app
 
-Things you may want to cover:
+- View the initial seed data on the page
+- Create an account
+- Create your own entries
 
-* Ruby version
+## Other key endpoints
 
-* System dependencies
+NB: These are both unprotected endpoints. In a production application, you would have both of these wrapped with routing protection to check users for authentication and authorization.
 
-* Configuration
+- `/sidekiq`: Async job runner. [Sidekiq](https://sidekiq.org) will handle email, asynchronous API calls, or anything else you don't want your users to wait for
+    - NB: We aren't doing anything with Sidekiq in this workshop beyond standing it up to demonstrate that it's something you need to consider and can handle with Kubernetes
+- `/admin`: Adminsitrative interface. It's [Administrate](https://github.com/thoughtbot/administrate)
+    - In this case, it's an easy spot to page through all of the data
 
-* Database creation
+## Running tests
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+There's a small test suite. Run it with `rspec`
