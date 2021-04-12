@@ -42,7 +42,7 @@ Link uses [Redis](https://redis.io) to run Sidekiq. The app is not doing much wi
 ### tl;dr
 
 - Clone it
-- `bundle install`
+- `bundle install`, `yarn install`
 - Create a `.env` file and update it
 - Create a `config/database.yml` file with the appropriate credentials and settings
 - Create the databases and migrate them
@@ -52,7 +52,7 @@ Link uses [Redis](https://redis.io) to run Sidekiq. The app is not doing much wi
 
 ### Stepwise
 
-- Within the repository, `bundle install`
+- Within the repository, `bundle install` then `yarn install`
 - Create a `.env` file
     - `cp .env.example .env`
 - Edit `.env`
