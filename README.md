@@ -23,6 +23,8 @@ Link uses PostgreSQL as a relational database. Any recent version should work. Y
 - I installed PostgreSQL through Homebrew: `brew install postgresql` on macOS
 - Linux users should use their system's package manager
 - Windows users can [download an interactive installer](https://www.postgresql.org/download/windows/)
+- Be sure to start PostgreSQL before you attempt to start the app
+    - For macOS users w/ Homebrew: `brew services start postgresql`
 
 ### Redis
 
@@ -34,6 +36,8 @@ Link uses [Redis](https://redis.io) to run Sidekiq. The app is not doing much wi
     - Redis is also [available as a snap](https://redis.io/download#from-snapcraft)
 - Windows: This appears to involve setting up the [Windows Subsystem for Linux](https://redislabs.com/blog/redis-on-windows-10/)
     - Candidly, we're not Windows users, so unfortunately, we're not going to be much help here
+- Be sure to start Redis
+    - For macOS users w/ Homebrew: `brew services start redis`
 
 ## Setup
 
@@ -41,7 +45,7 @@ Link uses [Redis](https://redis.io) to run Sidekiq. The app is not doing much wi
 
 ### tl;dr
 
-- Clone it
+- Fork the repository
 - `bundle install`, `yarn install`
 - Create a `.env` file and update it
 - Create a `config/database.yml` file with the appropriate credentials and settings
@@ -52,6 +56,8 @@ Link uses [Redis](https://redis.io) to run Sidekiq. The app is not doing much wi
 
 ### Stepwise
 
+- Fork the repository
+    - Creating a fork seems momentous, yeah? Well, we'll be changing around `config/database.yml` and it's easier to commit changes if you're on your own version of the repo
 - Within the repository, `bundle install` then `yarn install`
 - Create a `.env` file
     - `cp .env.example .env`
@@ -69,9 +75,11 @@ Link uses [Redis](https://redis.io) to run Sidekiq. The app is not doing much wi
     - `rails db:seed`
 - Handle _all_ of the database tasks in one go
     - `rails db:setup`
+- Redo _all_ of the database tasks
+    - `rails db:reset`
 - Start the app with Foreman
     - `(bundle exec) foreman start`
-- Open the app in your browser at the port you specified
+- Open the app in your browser at the port you specified in `.env`
     - `http://localhost:3000/`
 
 ## Getting started with the app
